@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Future Me</title>
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#1f2a37; --mute:#5b6675; --line:#e3dccd;
+  --blue:#0072B2; --orange:#E69F00; --sky:#56B4E9; --green:#009E73; --yellow:#F0E442; --verm:#D55E00; --purple:#CC79A7;
+  --good:#007a5a; --bad:#b4410b; --accent:#0072B2; --fs:16px;
+}
+body.hc{--bg:#ffffff;--card:#ffffff;--ink:#000;--mute:#222;--line:#000}
+body.big{--fs:19px}
+body.dark{--bg:#121722;--card:#1b2230;--ink:#eef2f8;--mute:#aab4c4;--line:#2c3647}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:var(--fs)/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",Tahoma,Arial,sans-serif}
+body.rm *{animation:none!important;transition:none!important}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding:14px 16px 40px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.logo{font-weight:800;font-size:1.35em;letter-spacing:.3px}
+.logo span{color:var(--orange)}
+.sp{flex:1}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88em;white-space:nowrap}
+.pill b{font-variant-numeric:tabular-nums}
+.btn{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px 14px;font-weight:600}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.step:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.small{padding:4px 10px;font-size:.9em;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:10px 0;box-shadow:0 2px 0 rgba(0,0,0,.03)}
+h1{font-size:1.9em;margin:.2em 0}
+h2{font-size:1.3em;margin:.2em 0 .4em}
+h3{font-size:1.05em;margin:.2em 0}
+.mute{color:var(--mute)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:720px){.g2,.g3{grid-template-columns:1fr}}
+.jar{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card)}
+.jar svg{flex:none}
+.jar .info{flex:1;min-width:0}
+.jar .row{display:flex;align-items:center;gap:6px;margin-top:4px}
+.step{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:800;font-size:1.1em}
+.amt{min-width:84px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.tag{font-size:.78em;padding:1px 8px;border-radius:8px;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.bar{height:10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%}
+.big-num{font-size:1.6em;font-weight:800;font-variant-numeric:tabular-nums}
+.lesson{border-inline-start:5px solid var(--sky);background:color-mix(in srgb,var(--sky) 10%,var(--card));padding:10px 14px;border-radius:10px;margin-top:10px}
+.choice{display:block;width:100%;text-align:start;margin:8px 0;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card)}
+.choice:hover{border-color:var(--accent)}
+.choice small{display:block;color:var(--mute);font-weight:400}
+.evt-icon{font-size:2.2em;line-height:1}
+.toast{position:fixed;inset-inline:0;bottom:18px;margin:auto;width:max-content;max-width:92vw;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9}
+.toast.on{opacity:.95}
+.score{display:flex;align-items:center;gap:14px}
+.ring{--p:0;width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--green) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring b{background:var(--card);width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:1.5em}
+table.s{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.s td{padding:4px 0;border-bottom:1px dashed var(--line)}
+table.s td:last-child{text-align:end}
+.letter{background:#fffaf0;color:#2b2b2b;border:1px solid #e6d8b8;border-radius:6px;padding:22px 26px;font-family:Georgia,"Times New Roman","Noto Naskh Arabic",serif;font-size:1.05em;box-shadow:0 8px 24px rgba(0,0,0,.08);position:relative}
+body.dark .letter{background:#efe6d2}
+.opts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select{font:inherit;padding:6px 8px;border-radius:9px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+.goalbtn{border:2px solid var(--line);border-radius:14px;padding:12px;background:var(--card);text-align:center}
+.goalbtn.on{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.goalbtn .e{font-size:2em}
+.warn{color:var(--bad);font-weight:600}
+.ok{color:var(--good);font-weight:600}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.notebook li{margin:6px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Future <span>Me</span></div>
+    <span class="pill" id="pMonth" hidden></span>
+    <span class="pill" id="pWallet" hidden></span>
+    <span class="pill" id="pScore" hidden></span>
+    <div class="sp"></div>
+    <div class="opts">
+      <label class="sr" for="langSel">Language</label>
+      <select id="langSel" aria-label="Language"><option value="en">English</option><option value="ar">العربية</option></select>
+      <button class="btn small" id="aBtn" aria-haspopup="true">Aa</button>
+    </div>
+  </header>
+  <div id="access" class="card" hidden></div>
+  <main id="main" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+'use strict';
+// ================= i18n =================
+let LANG='en';
+const t=o=>typeof o==='string'?o:String(o[LANG]||o.en);
+const UI={
+ tagline:{en:'A money game about the person you are becoming.',ar:'لعبة مالية عن الشخص الذي ستصبحه.'},
+ intro1:{en:'You just started your first full-time job. Every month you get paid, life happens, and you decide where each coin goes.',ar:'بدأت للتو وظيفتك الأولى بدوام كامل. كل شهر تستلم راتبك، وتحدث أمور في الحياة، وتقرر أين يذهب كل درهم.'},
+ intro2:{en:'Once a year, a letter arrives from Future You — the person your habits are building.',ar:'مرة كل عام تصلك رسالة من "أنت في المستقبل" — الشخص الذي تبنيه عاداتك.'},
+ setting:{en:'Where do you live?',ar:'أين تعيش؟'},
+ setUAE:{en:'Dubai, UAE (AED)',ar:'دبي، الإمارات (درهم)'},
+ setAny:{en:'Anywhere (USD)',ar:'أي مكان (دولار)'},
+ length:{en:'How long?',ar:'المدة؟'},
+ len12:{en:'1 year · ~6 min',ar:'سنة واحدة · ~6 دقائق'},
+ len36:{en:'3 years · ~15 min',ar:'3 سنوات · ~15 دقيقة'},
+ pickGoal:{en:'What are you saving for?',ar:'لماذا تدّخر؟'},
+ start:{en:'Start my first month',ar:'ابدأ شهري الأول'},
+ month:{en:'Month',ar:'الشهر'},
+ wallet:{en:'Wallet',ar:'المحفظة'},
+ health:{en:'Money health',ar:'الصحة المالية'},
+ payday:{en:'Payday!',ar:'يوم الراتب!'},
+ salary:{en:'Salary (after tax)',ar:'الراتب الصافي'},
+ rent:{en:'Rent',ar:'الإيجار'},
+ transport:{en:'Transport & phone',ar:'المواصلات والهاتف'},
+ subs:{en:'Subscriptions',ar:'الاشتراكات'},
+ minpay:{en:'Credit card minimum',ar:'الحد الأدنى لبطاقة الائتمان'},
+ bnpl:{en:'“Buy now, pay later” instalment',ar:'قسط "اشترِ الآن وادفع لاحقاً"'},
+ workplan:{en:'Workplace savings plan (5%)',ar:'خطة الادخار في العمل (5%)'},
+ fixed:{en:'Bills that leave automatically',ar:'فواتير تُخصم تلقائياً'},
+ toAssign:{en:'Left to give a job',ar:'المتبقي بلا مهمة'},
+ assignHint:{en:'Give every coin a job. Money left in your wallet tends to disappear on small things.',ar:'أعطِ كل درهم مهمة. المال المتروك في المحفظة يختفي غالباً في أشياء صغيرة.'},
+ j_food:{en:'Groceries',ar:'البقالة'}, j_food_d:{en:'Need',ar:'ضرورة'},
+ j_fun:{en:'Fun & going out',ar:'الترفيه والخروج'}, j_fun_d:{en:'Want',ar:'رغبة'},
+ j_ef:{en:'Emergency fund',ar:'صندوق الطوارئ'}, j_ef_d:{en:'Savings',ar:'ادخار'},
+ j_goal:{en:'Goal jar',ar:'جرة الهدف'},
+ j_inv:{en:'Long-term investing',ar:'استثمار طويل الأجل'}, j_inv_d:{en:'Grows over years',ar:'ينمو عبر السنين'},
+ j_debt:{en:'Extra card payment',ar:'دفعة إضافية للبطاقة'}, j_debt_d:{en:'Above the minimum',ar:'فوق الحد الأدنى'},
+ balance:{en:'Balance',ar:'الرصيد'},
+ needAbout:{en:'You need about',ar:'تحتاج تقريباً'},
+ split:{en:'Try 50/30/20',ar:'جرّب 50/30/20'},
+ splitHelp:{en:'A common starting rule: about 50% of take-home pay on needs, 30% on wants, 20% on saving and debt.',ar:'قاعدة شائعة للبداية: نحو 50% من الدخل الصافي للضروريات، و30% للرغبات، و20% للادخار وسداد الديون.'},
+ clear:{en:'Clear',ar:'مسح'},
+ done:{en:'Done — live my month',ar:'تم — عِش شهري'},
+ meanwhile:{en:'This month…',ar:'هذا الشهر…'},
+ continue:{en:'Continue',ar:'متابعة'},
+ monthEnd:{en:'End of month',ar:'نهاية الشهر'},
+ netWorth:{en:'Net worth',ar:'صافي الثروة'},
+ cardDebt:{en:'Credit card debt',ar:'دين البطاقة'},
+ wellbeing:{en:'Wellbeing',ar:'الرفاهية'},
+ interestPaid:{en:'Card interest charged',ar:'فائدة البطاقة المحتسبة'},
+ invReturn:{en:'Investments this month',ar:'الاستثمارات هذا الشهر'},
+ efProfit:{en:'Savings profit',ar:'ربح الادخار'},
+ walletLeak:{en:'Wallet money that slipped away',ar:'مال المحفظة الذي تسرّب'},
+ next:{en:'Next month',ar:'الشهر التالي'},
+ why:{en:'Why this score?',ar:'لماذا هذه النتيجة؟'},
+ sc_flow:{en:'Spent less than you earned',ar:'أنفقت أقل مما كسبت'},
+ sc_ef:{en:'Emergency fund (goal: 3 months of bills)',ar:'صندوق الطوارئ (الهدف: فواتير 3 أشهر)'},
+ sc_debt:{en:'Low debt',ar:'دين منخفض'},
+ sc_save:{en:'Saving rate',ar:'نسبة الادخار'},
+ sc_well:{en:'Wellbeing',ar:'الرفاهية'},
+ letterFrom:{en:'A letter from Future You',ar:'رسالة منك في المستقبل'},
+ projection:{en:'If you keep these habits, in 10 years:',ar:'إذا حافظت على هذه العادات، بعد 10 سنوات:'},
+ notebook:{en:'Your money notebook',ar:'دفتر ملاحظاتك المالية'},
+ notebookHint:{en:'Everything you learned along the way.',ar:'كل ما تعلمته في الطريق.'},
+ quiz:{en:'Quick check',ar:'اختبار سريع'},
+ again:{en:'Play again',ar:'العب مجدداً'},
+ final:{en:'Your story',ar:'قصتك'},
+ goalReached:{en:'Goal reached!',ar:'تحقق الهدف!'},
+ fromEF:{en:'Pay from emergency fund',ar:'ادفع من صندوق الطوارئ'},
+ a_text:{en:'Text size',ar:'حجم النص'}, a_hc:{en:'High contrast',ar:'تباين عالٍ'}, a_dark:{en:'Dark mode',ar:'الوضع الداكن'}, a_rm:{en:'Reduce motion',ar:'تقليل الحركة'}, a_snd:{en:'Sound',ar:'الصوت'},
+ a_note:{en:'Colours are chosen to be colour-blind safe. Every control works with a keyboard.',ar:'الألوان مختارة لتناسب عمى الألوان. كل عنصر يعمل بلوحة المفاتيح.'},
+ skip:{en:'(not enough money — this goes on your credit card)',ar:'(المال غير كافٍ — سيُضاف إلى بطاقتك الائتمانية)'},
+ interestNote:{en:'Your card charges 24% a year (2% a month) on what you owe.',ar:'بطاقتك تحتسب 24% سنوياً (2% شهرياً) على المبلغ المستحق.'},
+ burnout:{en:'Low wellbeing makes impulse spending more likely.',ar:'انخفاض الرفاهية يزيد احتمال الإنفاق الاندفاعي.'},
+};
+// ================= helpers =================
+const $=s=>document.querySelector(s);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+let K=1, CUR='USD';
+const A=x=>{const v=x*K;return CUR==='AED'?Math.round(v/10)*10:Math.round(v/5)*5};
+const STEP=()=>CUR==='AED'?100:25;
+function money(v){const s=v<0?'−':'';v=Math.abs(Math.round(v));const n=v.toLocaleString(LANG==='ar'?'en-US':'en-US');if(LANG==='ar'){return CUR==='AED'?'<bdi dir="ltr">'+s+n+'</bdi> د.إ':'<bdi dir="ltr">'+s+'$'+n+'</bdi>'}return CUR==='AED'?s+'AED '+n:s+'$'+n}
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2600)}
+let rng=Math.random;
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(){let u=0,v=0;while(!u)u=rng();while(!v)v=rng();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+let sound=true, actx=null;
+function clink(f=880){if(!sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.05,actx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.18);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.2)}catch(e){}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+
+// ================= goals =================
+const GOALS=[
+ {id:'laptop',e:'💻',name:{en:'Laptop + online course',ar:'حاسوب محمول + دورة إلكترونية'},cost:2500},
+ {id:'trip',e:'✈️',name:{en:'Trip home to see family',ar:'رحلة إلى الوطن لرؤية العائلة'},cost:3000},
+ {id:'car',e:'🚗',name:{en:'A used car',ar:'سيارة مستعملة'},cost:6000},
+];
+// ================= state =================
+let S=null;
+function newState(opts){
+  rng=mulberry32(opts.seed||Math.floor(Math.random()*1e9));
+  CUR=opts.region==='uae'?'AED':'USD'; K=CUR==='AED'?3.67:1;
+  return {
+    region:opts.region, months:opts.months, goal:opts.goal, m:1,
+    salary:A(2400), rent:A(900), transport:A(200), subs:A(60), food:A(300),
+    ef:0, inv:0, goalJar:0, debt:A(1200), wallet:0, well:70,
+    bnpl:[], workplan:false, insured:false, lent:0, roommate:false, course:0, extraCost:[],
+    alloc:{food:0,fun:0,ef:0,goal:0,inv:0,debt:0},
+    hist:[], notes:[], seen:{}, flags:{}, interestTotal:0, goalDone:false, newDebtThisMonth:0, score:0, crash:0,
+  };
+}
+const fixedBills=()=>{
+  const b=[[UI.rent,S.rent],[UI.transport,S.transport]];
+  if(S.subs>0)b.push([UI.subs,S.subs]);
+  const min=minPay(); if(min>0)b.push([UI.minpay,min]);
+  const bn=S.bnpl.reduce((a,x)=>a+x.amt,0); if(bn>0)b.push([UI.bnpl,bn]);
+  if(S.workplan)b.push([UI.workplan,Math.round(S.salary*.05)]);
+  for(const x of S.extraCost) b.push([x.label,x.amt]);
+  return b;
+};
+function minPay(){return S.debt<=0?0:Math.min(S.debt,Math.max(A(25),Math.round(S.debt*.03)))}
+const income=()=>S.salary;
+const netWorth=()=>S.ef+S.inv+S.goalJar+S.wallet-S.debt;
+function essentials(){return S.rent+S.transport+S.food}
+
+// ================= screens =================
+const main=$('#main');
+function render(h){main.innerHTML='<div class="fade">'+h+'</div>';window.scrollTo(0,0);updateHeader()}
+function updateHeader(){
+  const on=!!S&&S.m<=S.months&&!S.over;
+  ['#pMonth','#pWallet','#pScore'].forEach(s=>$(s).hidden=!on);
+  if(!on)return;
+  $('#pMonth').innerHTML=t(UI.month)+' <b>'+S.m+'</b> / '+S.months;
+  $('#pWallet').innerHTML=t(UI.netWorth)+' <b>'+money(netWorth())+'</b>';
+  $('#pScore').innerHTML=t(UI.health)+' <b>'+S.score+'</b>/100';
+}
+let setup={region:'uae',months:12,goal:'trip'};
+function intro(){
+  S=null;cur=null;
+  const g=GOALS.map(x=>`<button class="goalbtn ${setup.goal===x.id?'on':''}" data-goal="${x.id}" aria-pressed="${setup.goal===x.id}"><div class="e" aria-hidden="true">${x.e}</div><div><b>${t(x.name)}</b></div></button>`).join('');
+  render(`<div class="card"><h1>Future <span style="color:var(--orange)">Me</span></h1><p class="mute" style="font-size:1.1em">${t(UI.tagline)}</p>
+  <div class="grid g2" style="align-items:center"><div><p>${t(UI.intro1)}</p><p>${t(UI.intro2)}</p></div><div style="text-align:center">${face(70,140)}</div></div></div>
+  <div class="card"><h3>${t(UI.setting)}</h3><div class="opts">
+    <button class="goalbtn ${setup.region==='uae'?'on':''}" data-region="uae" aria-pressed="${setup.region==='uae'}">🇦🇪 ${t(UI.setUAE)}</button>
+    <button class="goalbtn ${setup.region==='any'?'on':''}" data-region="any" aria-pressed="${setup.region==='any'}">🌍 ${t(UI.setAny)}</button></div>
+  <h3 style="margin-top:14px">${t(UI.length)}</h3><div class="opts">
+    <button class="goalbtn ${setup.months===12?'on':''}" data-len="12" aria-pressed="${setup.months===12}">${t(UI.len12)}</button>
+    <button class="goalbtn ${setup.months===36?'on':''}" data-len="36" aria-pressed="${setup.months===36}">${t(UI.len36)}</button></div>
+  <h3 style="margin-top:14px">${t(UI.pickGoal)}</h3><div class="grid g3">${g}</div>
+  <p style="margin-top:16px"><button class="btn primary" id="go">${t(UI.start)} →</button></p></div>`);
+  main.querySelectorAll('[data-goal]').forEach(b=>b.onclick=()=>{setup.goal=b.dataset.goal;intro()});
+  main.querySelectorAll('[data-region]').forEach(b=>b.onclick=()=>{setup.region=b.dataset.region;intro()});
+  main.querySelectorAll('[data-len]').forEach(b=>b.onclick=()=>{setup.months=+b.dataset.len;intro()});
+  $('#go').onclick=()=>{S=newState(setup);S.score=computeScore().total;payday()};
+}
+function goalObj(){return GOALS.find(g=>g.id===S.goal)}
+function goalCost(){return A(goalObj().cost*(S.months===12?.7:1.4))}
+
+// ---------- payday / allocation ----------
+function payday(){
+  S.newDebtThisMonth=0;
+  const bills=fixedBills(), billSum=bills.reduce((a,b)=>a+b[1],0);
+  S.debt=Math.max(0,S.debt-minPay());
+  S.bnpl.forEach(b=>b.left--);S.bnpl=S.bnpl.filter(b=>b.left>0);
+  S.extraCost.forEach(b=>b.left--);S.extraCost=S.extraCost.filter(b=>b.left>0);
+  S.wallet+=income()-billSum;S._efUsed=0;
+  if(S.wallet<0){const e=Math.min(S.ef,-S.wallet);S.ef-=e;S.wallet+=e;S._efUsed=e}
+  if(S.wallet<0){S.debt+=-S.wallet;S.newDebtThisMonth+=-S.wallet;S.wallet=0}
+  S.alloc={food:0,fun:0,ef:0,goal:0,inv:0,debt:0};
+  S._bills=bills;S._billSum=billSum;
+  clink(1040);
+  allocScreen();
+}
+const JARS=[
+ {k:'food',name:UI.j_food,d:UI.j_food_d,col:'var(--green)'},
+ {k:'fun',name:UI.j_fun,d:UI.j_fun_d,col:'var(--purple)'},
+ {k:'ef',name:UI.j_ef,d:UI.j_ef_d,col:'var(--blue)'},
+ {k:'goal',name:null,d:null,col:'var(--orange)'},
+ {k:'inv',name:UI.j_inv,d:UI.j_inv_d,col:'var(--sky)'},
+ {k:'debt',name:UI.j_debt,d:UI.j_debt_d,col:'var(--verm)'},
+];
+function jarSvg(frac,col){frac=clamp(frac,0,1);const h=46*frac;return `<svg width="44" height="56" viewBox="0 0 44 56" aria-hidden="true"><rect x="10" y="2" width="24" height="6" rx="2" fill="var(--line)"/><path d="M6 10 h32 v40 a4 4 0 0 1 -4 4 h-24 a4 4 0 0 1 -4 -4z" fill="var(--bg)" stroke="var(--line)" stroke-width="2"/><rect x="8" y="${52-h}" width="28" height="${h}" rx="3" fill="${col}" opacity=".85"/></svg>`}
+function remaining(){return S.wallet-Object.values(S.alloc).reduce((a,b)=>a+b,0)}
+function allocScreen(){
+  cur=allocScreen;
+  const bills=S._bills.map(b=>`<tr><td>${t(b[0])}</td><td>−${money(b[1])}</td></tr>`).join('');
+  const jars=JARS.map(j=>{
+    if(j.k==='debt'&&S.debt<=0)return '';
+    const name=j.k==='goal'?t(UI.j_goal)+': '+t(goalObj().name):t(j.name);
+    let sub='',frac=0;
+    if(j.k==='food'){sub=t(UI.needAbout)+' '+money(S.food);frac=S.alloc.food/S.food}
+    if(j.k==='fun'){sub=t(j.d);frac=S.alloc.fun/A(250)}
+    if(j.k==='ef'){const tgt=3*essentials();sub=t(UI.balance)+' '+money(S.ef)+' / '+money(tgt);frac=(S.ef+S.alloc.ef)/tgt}
+    if(j.k==='goal'){sub=t(UI.balance)+' '+money(S.goalJar)+' / '+money(goalCost());frac=(S.goalJar+S.alloc.goal)/goalCost()}
+    if(j.k==='inv'){sub=t(UI.balance)+' '+money(S.inv);frac=Math.min(1,(S.inv+S.alloc.inv)/A(5000))}
+    if(j.k==='debt'){sub=t(UI.cardDebt)+' '+money(S.debt);frac=1-Math.min(1,(S.alloc.debt)/Math.max(1,S.debt-minPay()))}
+    return `<div class="jar"><span data-svg="${j.k}">${jarSvg(frac,j.col)}</span><div class="info"><h3>${name}</h3><div class="mute" style="font-size:.88em">${sub}</div>
+      <div class="row"><button class="step" data-k="${j.k}" data-d="-1" aria-label="${t(UI.clear)} ${name}">−</button><span class="amt" id="a_${j.k}">${money(S.alloc[j.k])}</span><button class="step" data-k="${j.k}" data-d="1" aria-label="+ ${name}">+</button></div></div></div>`}).join('');
+  render(`<div class="card"><div class="grid g2"><div><h2>💰 ${t(UI.payday)}</h2>
+    <table class="s"><tr><td>${t(UI.salary)}</td><td><b>${money(income())}</b></td></tr>${bills}</table>
+    ${S._efUsed?`<p class="warn" style="font-size:.9em">${LANG==='ar'?'لم يكفِ الدخل للفواتير، فأُخذ '+money(S._efUsed)+' من صندوق الطوارئ.':'Income didn\'t cover the bills, so '+money(S._efUsed)+' came out of your emergency fund.'}</p>`:''}
+    ${S.debt>0?`<p class="mute" style="font-size:.88em">${t(UI.interestNote)}</p>`:''}</div>
+    <div><div class="mute">${t(UI.toAssign)}</div><div class="big-num" id="rem">${money(remaining())}</div><p class="mute" style="font-size:.9em">${t(UI.assignHint)}</p>
+    <div class="opts"><button class="btn small" id="split" title="${t(UI.splitHelp)}">${t(UI.split)}</button><button class="btn small" id="clr">${t(UI.clear)}</button></div>
+    <p class="mute" style="font-size:.82em;margin:.4em 0 0">${t(UI.splitHelp)}</p></div></div></div>
+    <div class="grid g2">${jars}</div>
+    <p style="text-align:end"><button class="btn primary" id="done">${t(UI.done)} →</button></p>`);
+  main.querySelectorAll('.step').forEach(b=>b.onclick=()=>{const k=b.dataset.k,d=+b.dataset.d;let s=STEP();
+    if(d>0){s=Math.min(s,remaining());if(k==='debt')s=Math.min(s,S.debt-minPay()-S.alloc.debt);if(s<=0)return;S.alloc[k]+=s;clink(700+Math.random()*300)}
+    else{S.alloc[k]=Math.max(0,S.alloc[k]-s)}
+    refreshAlloc()});
+  $('#split').onclick=()=>{const w=S.wallet,st=STEP(),rd=x=>Math.max(0,Math.floor(x/st)*st);S.alloc={food:0,fun:0,ef:0,goal:0,inv:0,debt:0};
+    const food=Math.min(S.food,w);S.alloc.food=food;let rest=w-food;
+    const saveT=Math.min(rest,rd(income()*.2));
+    S.alloc.fun=Math.min(rd(income()*.3),rd(rest-saveT));rest-=S.alloc.fun;
+    if(S.debt>minPay()){const d=Math.min(rd(rest*.5),S.debt-minPay());S.alloc.debt=d;rest-=d}
+    const efNeed=Math.max(0,3*essentials()-S.ef);const e=Math.min(rd(rest*.5),efNeed);S.alloc.ef=e;rest-=e;
+    if(S.ef+e>=3*essentials()&&!S.debt){const iv=rd(rest*.5);S.alloc.inv=iv;rest-=iv}
+    S.alloc.goal=Math.max(0,Math.min(rest,goalCost()-S.goalJar));rest-=S.alloc.goal;S.alloc.ef+=rest;refreshAlloc();clink(900)};
+  $('#clr').onclick=()=>{S.alloc={food:0,fun:0,ef:0,goal:0,inv:0,debt:0};refreshAlloc()};
+  $('#done').onclick=()=>{if(remaining()>0&&!S._warned){S._warned=1;toast(t(UI.assignHint));return}liveMonth()};
+}
+function refreshAlloc(){
+  for(const k in S.alloc){const e=$('#a_'+k);if(e)e.innerHTML=money(S.alloc[k])}
+  $('#rem').innerHTML=money(remaining());
+  // redraw jar fills
+  for(const j of JARS){const sp=main.querySelector(`[data-svg="${j.k}"]`);if(!sp)continue;let frac=0;
+    if(j.k==='food')frac=S.alloc.food/S.food;if(j.k==='fun')frac=S.alloc.fun/A(250);if(j.k==='ef')frac=(S.ef+S.alloc.ef)/(3*essentials());
+    if(j.k==='goal')frac=(S.goalJar+S.alloc.goal)/goalCost();if(j.k==='inv')frac=Math.min(1,(S.inv+S.alloc.inv)/A(5000));if(j.k==='debt')frac=1-Math.min(1,S.alloc.debt/Math.max(1,S.debt-minPay()));
+    sp.innerHTML=jarSvg(frac,j.col)}
+}
+
+// ---------- the month: commit allocation, then events ----------
+function liveMonth(){
+  const a=S.alloc;
+  S.wallet-=Object.values(a).reduce((x,y)=>x+y,0);
+  S.ef+=a.ef;S.goalJar+=a.goal;S.inv+=a.inv;S.debt=Math.max(0,S.debt-a.debt);
+  S._food=a.food;S._fun=a.fun;
+  S.queue=pickEvents();
+  nextEvent();
+}
+function nextEvent(){
+  if(!S.queue.length)return monthEnd();
+  const ev=S.queue.shift();S.seen[ev.id]=(S.seen[ev.id]||0)+1;
+  const ch=ev.choices.filter(c=>!c.when||c.when());
+  showEvent(ev,ch);
+}
+function showEvent(ev,ch){
+  cur=()=>showEvent(ev,ch);
+  render(`<div class="card"><div class="mute">${t(UI.meanwhile)}</div><div style="display:flex;gap:14px;align-items:flex-start;margin-top:6px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div>
+   <div style="flex:1"><h2>${t(ev.title)}</h2><p>${fill(t(ev.text))}</p>
+   ${ch.map((c,i)=>`<button class="choice" data-i="${i}"><b>${fill(t(c.label))}</b>${c.sub?`<small>${fill(t(c.sub))}</small>`:''}</button>`).join('')}</div></div></div>`);
+  main.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
+    const c=ch[+b.dataset.i];const res=c.go()||{};clink(520);
+    const lesson=c.lesson||ev.lesson;
+    if(lesson&&!S.notes.some(n=>n.id===(c.lessonId||ev.id)))S.notes.push({id:c.lessonId||ev.id,txt:lesson,vars:{...S._vars}});
+    showResult(ev,c,res,lesson);
+  });
+}
+function showResult(ev,c,res,lesson){
+    cur=()=>showResult(ev,c,res,lesson);
+    render(`<div class="card"><div style="display:flex;gap:14px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div><div style="flex:1"><h2>${t(ev.title)}</h2>
+      <p><b>${fill(t(c.label))}</b></p>${res.msg?`<p>${fill(t(res.msg))}</p>`:''}
+      ${lesson?`<div class="lesson">📒 ${fill(t(lesson))}</div>`:''}
+      <p style="text-align:end;margin-top:14px"><button class="btn primary" id="cont">${t(UI.continue)} →</button></p></div></div></div>`);
+    $('#cont').onclick=nextEvent;$('#cont').focus();
+}
+let _v={};
+function fill(s){S._vars=S._vars||{};return s.replace(/\{(\w+)\}/g,(m,k)=>{const v=S._vars[k];return v===undefined?m:(typeof v==='number'?money(v):v)})}
+function V(o){S._vars=Object.assign(S._vars||{},o)}
+
+// pay a cost from a source; returns amount that went on the card
+function pay(amount,src){
+  let left=amount;
+  const take=(key)=>{const x=Math.min(S[key],left);S[key]-=x;left-=x};
+  if(src==='ef')take('ef');
+  if(src==='goal')take('goalJar');
+  take('wallet');
+  if(src!=='card'){/* fall through */}
+  if(left>0){const fromFun=Math.min(S._fun,left);S._fun-=fromFun;left-=fromFun}
+  if(left>0){S.debt+=left;S.newDebtThisMonth+=left}
+  return left;
+}
+const cardMsg=x=>x>0?{en:`${money(x)} went on your credit card.`,ar:`أُضيف ${money(x)} إلى بطاقتك الائتمانية.`}:null;
+
+// ================= events =================
+const uae=()=>S.region==='uae';
+const EVENTS=[
+ {id:'repair',icon:'🛠️',min:2,w:3,once:false,
+  title:{en:'Your car broke down',ar:'تعطلت سيارتك'},
+  text:{en:'The mechanic says the repair costs {c}. You can\'t get to work without it.',ar:'يقول الميكانيكي إن الإصلاح يكلف {c}. لا يمكنك الذهاب إلى العمل بدونها.'},
+  pre(){V({c:A(600)})},
+  lesson:{en:'This is exactly what an emergency fund is for. Experts often suggest saving 3–6 months of essential bills, so a surprise bill does not become debt.',ar:'هذا بالضبط دور صندوق الطوارئ. ينصح الخبراء غالباً بادخار نفقات 3–6 أشهر من الضروريات حتى لا تتحول الفاتورة المفاجئة إلى دين.'},
+  choices:[
+   {label:{en:'Pay from my emergency fund',ar:'ادفع من صندوق الطوارئ'},sub:{en:'Balance: {ef}',ar:'الرصيد: {ef}'},go(){const x=pay(A(600),'ef');return {msg:x>0?cardMsg(x):{en:'Fixed. Your emergency fund did its job.',ar:'تم الإصلاح. صندوق الطوارئ أدى دوره.'}}}},
+   {label:{en:'Put it on the credit card',ar:'ضعه على بطاقة الائتمان'},go(){S.debt+=A(600);S.newDebtThisMonth+=A(600);return {msg:{en:'Fixed — but now it grows at 2% a month until you pay it off.',ar:'تم الإصلاح — لكنه الآن يزداد 2% شهرياً حتى تسدده.'}}}},
+   {label:{en:'Skip the repair and take taxis for now',ar:'أجّل الإصلاح واستخدم سيارات الأجرة'},sub:{en:'{t} a month extra for 3 months',ar:'{t} إضافية شهرياً لمدة 3 أشهر'},go(){S.extraCost.push({label:{en:'Taxis',ar:'سيارات الأجرة'},amt:A(150),left:3});S.well-=4;return {msg:{en:'Cheaper today, more expensive overall — and tiring.',ar:'أرخص اليوم، وأغلى في المجمل — ومتعب أيضاً.'}}}},
+  ]},
+ {id:'phone',icon:'📱',min:2,w:3,
+  title:{en:'The new phone is out',ar:'صدر الهاتف الجديد'},
+  text:{en:'It costs {c}. The shop offers “buy now, pay later”: 4 payments of {q}, 0% interest. Your phone still works.',ar:'سعره {c}. المتجر يعرض "اشترِ الآن وادفع لاحقاً": 4 دفعات كل منها {q} بدون فائدة. هاتفك الحالي ما زال يعمل.'},
+  pre(){V({c:A(1000),q:A(250)})},
+  choices:[
+   {label:{en:'Buy now, pay later (4 × {q})',ar:'اشترِ الآن وادفع لاحقاً (4 × {q})'},go(){S.bnpl.push({amt:A(250),left:4});S.well+=4;return {msg:{en:'Shiny! The next four paydays already have {q} spoken for.',ar:'رائع! لكن رواتبك الأربعة القادمة محجوز منها {q} مسبقاً.'}}},lessonId:'bnpl',lesson:{en:'“Pay later” is still debt. It is easy to stack several plans and lose track — and missed payments often bring late fees.',ar:'"ادفع لاحقاً" يبقى ديناً. من السهل تراكم عدة خطط وفقدان السيطرة — والدفعات المتأخرة غالباً تجلب رسوماً.'}},
+   {label:{en:'Pay in full from my goal jar',ar:'ادفع كامل المبلغ من جرة الهدف'},go(){const x=pay(A(1000),'goal');S.well+=4;return {msg:x>0?cardMsg(x):{en:'Paid. Your goal just moved further away.',ar:'تم الدفع. لكن هدفك ابتعد قليلاً.'}}},lessonId:'tradeoff',lesson:{en:'Every purchase has an opportunity cost: the money could have done something else, like reaching your goal sooner.',ar:'لكل شراء تكلفة فرصة بديلة: كان يمكن للمال أن يحقق شيئاً آخر، مثل الوصول إلى هدفك أسرع.'}},
+   {label:{en:'Keep my phone',ar:'احتفظ بهاتفي'},go(){return {msg:{en:'Your phone works fine. Future You says thanks.',ar:'هاتفك يعمل جيداً. "أنت في المستقبل" يشكرك.'}}},lessonId:'needwant',lesson:{en:'Needs keep you safe and working; wants make life nicer. Telling them apart is the first budgeting skill.',ar:'الضروريات تحافظ على أمانك وعملك، والرغبات تجعل الحياة أجمل. التمييز بينهما أول مهارة في الميزانية.'}},
+  ]},
+ {id:'phish',icon:'✉️',min:1,w:3,
+  title:{en:'A text from “your bank”',ar:'رسالة نصية من "مصرفك"'},
+  text:{en:'“Your account is blocked. Confirm your card number and code here to unlock it: bit.ly/…”',ar:'"تم إيقاف حسابك. أكّد رقم بطاقتك والرمز هنا لإعادة تفعيله: bit.ly/…"'},
+  lesson:{en:'Real banks never ask for your card number, PIN or one-time code by text or phone. Call the number on the back of your card instead.',ar:'المصارف الحقيقية لا تطلب أبداً رقم البطاقة أو الرمز السري أو رمز التحقق عبر رسالة أو مكالمة. اتصل بالرقم الموجود خلف بطاقتك.'},
+  choices:[
+   {label:{en:'Tap the link and enter the details',ar:'اضغط الرابط وأدخل البيانات'},go(){const x=A(400);S.debt+=x;S.newDebtThisMonth+=x;S.well-=8;return {msg:{en:'It was a scam. {x} was stolen before you could block the card.',ar:'كانت عملية احتيال. سُرق {x} قبل أن تتمكن من إيقاف البطاقة.'}}},pre(){}},
+   {label:{en:'Ignore it and call the bank\'s official number',ar:'تجاهلها واتصل بالرقم الرسمي للمصرف'},go(){S.well+=1;return {msg:{en:'The bank confirms it was a scam. Nothing was lost.',ar:'يؤكد المصرف أنها عملية احتيال. لم تخسر شيئاً.'}}}},
+  ],pre(){V({x:A(400)})}},
+ {id:'lend',icon:'🤝',min:2,w:2,
+  title:{en:'A friend needs help',ar:'صديق يحتاج المساعدة'},
+  text:{en:'Your friend asks to borrow {c} until “next month”.',ar:'يطلب صديقك اقتراض {c} حتى "الشهر القادم".'},
+  pre(){V({c:A(300),g:A(60)})},
+  lesson:{en:'Only lend what you could afford never to get back. Agree on a date in writing — it protects the friendship too.',ar:'لا تُقرض إلا ما يمكنك تحمّل عدم استرداده. اتفقا على موعد مكتوب — فهذا يحمي الصداقة أيضاً.'},
+  choices:[
+   {label:{en:'Lend {c}',ar:'أقرضه {c}'},go(){const x=pay(A(300),'ef');S.lent+=A(300);S.well+=2;return {msg:cardMsg(x)||{en:'Your friend is grateful.',ar:'صديقك ممتن لك.'}}}},
+   {label:{en:'Give {g} as a gift instead',ar:'أعطه {g} هدية بدلاً من ذلك'},go(){const x=pay(A(60));S.well+=2;return {msg:cardMsg(x)||{en:'A small gift, no strings attached.',ar:'هدية صغيرة بلا شروط.'}}}},
+   {label:{en:'Kindly say you can\'t right now',ar:'اعتذر بلطف لأنك لا تستطيع الآن'},go(){S.well-=2;return {msg:{en:'It felt awkward, but your budget stays on track.',ar:'كان الموقف محرجاً، لكن ميزانيتك بقيت على المسار.'}}}},
+  ]},
+ {id:'repay',icon:'💌',min:3,w:9,req:()=>S.lent>0,
+  title:{en:'Your friend got back to you',ar:'صديقك تواصل معك'},
+  text:{en:'You lent them money a while ago.',ar:'أقرضته مالاً قبل فترة.'},
+  choices:[{label:{en:'Read the message',ar:'اقرأ الرسالة'},go(){const ok=rng()<.6;const x=S.lent;S.lent=0;if(ok){S.wallet+=x;V({x});return {msg:{en:'They paid back {x}. Nice.',ar:'أعاد لك {x}. رائع.'}}}V({x});S.well-=2;return {msg:{en:'“Can I pay you back later?” The {x} may be gone for a while.',ar:'"هل يمكنني السداد لاحقاً؟" قد يغيب مبلغ {x} لفترة.'}}}}]},
+ {id:'course',icon:'🎓',min:2,w:2,once:true,
+  title:{en:'An online course',ar:'دورة إلكترونية'},
+  text:{en:'A {c} certificate course could help you get promoted. It takes your evenings for a month.',ar:'دورة شهادة بسعر {c} قد تساعدك على الترقية. ستأخذ أمسياتك لمدة شهر.'},
+  pre(){V({c:A(250)})},
+  lesson:{en:'Spending on skills is an investment in your earning power — often the best return early in a career.',ar:'الإنفاق على المهارات استثمار في قدرتك على الكسب — وغالباً أفضل عائد في بداية المسيرة المهنية.'},
+  choices:[
+   {label:{en:'Sign up ({c})',ar:'سجّل ({c})'},go(){const x=pay(A(250),'goal');S.course=S.m;S.well-=2;return {msg:cardMsg(x)||{en:'Hard work. Let\'s see if it pays off.',ar:'عمل شاق. لنرَ إن كان سيؤتي ثماره.'}}}},
+   {label:{en:'Not now',ar:'ليس الآن'},go(){return {}}},
+  ]},
+ {id:'promo',icon:'📈',min:4,w:12,req:()=>S.course&&S.m-S.course>=2&&!S.flags.promo,
+  title:{en:'Promotion!',ar:'ترقية!'},
+  text:{en:'Your manager noticed your new skills. Your salary goes up by {r} a month.',ar:'لاحظ مديرك مهاراتك الجديدة. راتبك سيزيد {r} شهرياً.'},
+  pre(){V({r:A(300)})},
+  lesson:{en:'When income rises, try “saving the raise”: put part of every raise toward savings before your lifestyle grows to match it.',ar:'عندما يرتفع دخلك، جرّب "ادخار الزيادة": وجّه جزءاً من كل زيادة للادخار قبل أن يكبر نمط حياتك ليبتلعها.'},
+  choices:[{label:{en:'Celebrate (a little)',ar:'احتفل (قليلاً)'},go(){S.flags.promo=1;S.salary+=A(300);S.well+=6;return {}}}]},
+ {id:'crash',icon:'📉',min:4,w:3,req:()=>S.inv>A(300),once:true,
+  title:{en:'The stock market fell 25%',ar:'هبطت سوق الأسهم 25%'},
+  text:{en:'Your investments dropped from {a} to {b}. The news is scary.',ar:'انخفضت استثماراتك من {a} إلى {b}. الأخبار مخيفة.'},
+  pre(){V({a:S.inv,b:Math.round(S.inv*.75)});S.inv=Math.round(S.inv*.75)},
+  lesson:{en:'Markets rise and fall. Selling after a drop locks in the loss; long-term investors who stay invested have historically recovered. Only invest money you won\'t need for years.',ar:'الأسواق ترتفع وتنخفض. البيع بعد الهبوط يثبّت الخسارة؛ والمستثمرون طويلو الأجل الذين بقوا مستثمرين تعافوا تاريخياً. استثمر فقط مالاً لن تحتاجه لسنوات.'},
+  choices:[
+   {label:{en:'Sell everything before it gets worse',ar:'بِع كل شيء قبل أن يزداد الوضع سوءاً'},go(){S.ef+=S.inv;S.inv=0;S.flags.sold=1;return {msg:{en:'Moved to savings. You won\'t be there for the recovery.',ar:'نُقلت إلى الادخار. لن تستفيد من التعافي.'}}}},
+   {label:{en:'Hold and keep investing',ar:'احتفظ وواصل الاستثمار'},go(){S.crash=6;return {msg:{en:'You stay the course.',ar:'تبقى على المسار.'}}}},
+  ]},
+ {id:'sale',icon:'👟',min:1,w:3,
+  title:{en:'40% off!',ar:'خصم 40%!'},
+  text:{en:'The sneakers you liked are on sale for {c} — today only.',ar:'الحذاء الرياضي الذي أعجبك معروض بسعر {c} — اليوم فقط.'},
+  pre(){V({c:A(180)})},
+  lesson:{en:'“Today only” is designed to rush you. A simple rule: wait 30 days before a non-essential purchase. If you still want it, plan for it.',ar:'"اليوم فقط" مصممة لتستعجلك. قاعدة بسيطة: انتظر 30 يوماً قبل أي شراء غير ضروري. إن بقيت تريده، خطط له.'},
+  choices:[
+   {label:{en:'Buy them now',ar:'اشترها الآن'},go(){const x=pay(A(180));S.well+=3;return {msg:cardMsg(x)||{en:'From your fun money. They look great.',ar:'من مال الترفيه. تبدو رائعة.'}}}},
+   {label:{en:'Add to a 30-day wish list',ar:'أضفها إلى قائمة أمنيات لمدة 30 يوماً'},go(){S.flags.wish=S.m;return {msg:{en:'Noted. You\'ll check again next month.',ar:'تم. ستراجع الأمر الشهر القادم.'}}}},
+  ]},
+ {id:'wish',icon:'📝',min:2,w:9,req:()=>S.flags.wish&&S.m>S.flags.wish,once:true,
+  title:{en:'Your 30-day wish list',ar:'قائمة أمنياتك لـ30 يوماً'},
+  text:{en:'A month later… do you still want those sneakers?',ar:'بعد شهر… هل ما زلت تريد ذلك الحذاء؟'},
+  choices:[
+   {label:{en:'Honestly, not really',ar:'بصراحة، ليس كثيراً'},go(){S.flags.wish=0;S.well+=1;return {msg:{en:'Most wish-list items lose their pull. Money saved.',ar:'معظم بنود قائمة الأمنيات تفقد جاذبيتها. وفّرت المال.'}}}},
+   {label:{en:'Yes — buy them from fun money',ar:'نعم — اشترها من مال الترفيه'},go(){S.flags.wish=0;const x=pay(A(150));S.well+=4;return {msg:cardMsg(x)||{en:'A planned purchase. No regrets.',ar:'شراء مخطط له. بلا ندم.'}}}},
+  ]},
+ {id:'subs',icon:'📺',min:3,w:3,once:true,
+  title:{en:'Subscription check',ar:'مراجعة الاشتراكات'},
+  text:{en:'You pay {c} a month for four streaming and app subscriptions. You mostly use one.',ar:'تدفع {c} شهرياً لأربعة اشتراكات بث وتطبيقات. وتستخدم واحداً فقط في الغالب.'},
+  pre(){V({c:S.subs,y:S.subs*12})},
+  lesson:{en:'Small recurring costs add up: {c} a month is {y} a year. Review subscriptions every few months.',ar:'التكاليف الصغيرة المتكررة تتراكم: {c} شهرياً تعني {y} سنوياً. راجع اشتراكاتك كل بضعة أشهر.'},
+  choices:[
+   {label:{en:'Cancel three, keep one',ar:'ألغِ ثلاثة واحتفظ بواحد'},go(){S.subs=A(15);return {msg:{en:'Your fixed bills just got lighter.',ar:'فواتيرك الثابتة أصبحت أخف.'}}}},
+   {label:{en:'Keep them all',ar:'احتفظ بها جميعاً'},go(){return {}}},
+  ]},
+ {id:'dental',icon:'🦷',min:3,w:2,
+  title:{en:'Toothache',ar:'ألم في الأسنان'},
+  text:{en:'The dentist bill is {c}.',ar:'فاتورة طبيب الأسنان {c}.'},
+  pre(){V({c:A(350),d:A(50)})},
+  lesson:{en:'Insurance pools risk: many people pay a small amount so no one faces a big bill alone.',ar:'التأمين يوزّع المخاطر: يدفع كثيرون مبلغاً صغيراً حتى لا يواجه أحد فاتورة كبيرة بمفرده.'},
+  choices:[
+   {label:{en:'Use my insurance (pay {d})',ar:'استخدم تأميني (ادفع {d})'},when:()=>S.insured,go(){const x=pay(A(50),'ef');return {msg:cardMsg(x)||{en:'Insurance covered most of it.',ar:'غطّى التأمين معظم المبلغ.'}}}},
+   {label:{en:'Pay from my emergency fund',ar:'ادفع من صندوق الطوارئ'},when:()=>!S.insured,go(){const x=pay(A(350),'ef');return {msg:cardMsg(x)||{en:'Paid. Good thing you had savings.',ar:'تم الدفع. من الجيد أن لديك مدخرات.'}}}},
+   {label:{en:'Put it on the card',ar:'ضعه على البطاقة'},when:()=>!S.insured,go(){S.debt+=A(350);S.newDebtThisMonth+=A(350);return {}}},
+  ]},
+ {id:'insure',icon:'🛡️',min:2,w:2,once:true,req:()=>!S.insured,
+  title:{en:'Health & dental cover',ar:'تغطية صحية وأسنان'},
+  text:{en:'Your employer offers extra cover for {c} a month.',ar:'يعرض صاحب العمل تغطية إضافية مقابل {c} شهرياً.'},
+  pre(){V({c:A(20)})},
+  choices:[
+   {label:{en:'Take the cover',ar:'اشترك في التغطية'},go(){S.insured=true;S.extraCost.push({label:{en:'Insurance',ar:'التأمين'},amt:A(20),left:999});return {}},lessonId:'insure',lesson:{en:'Insurance turns a large, uncertain cost into a small, predictable one.',ar:'التأمين يحوّل تكلفة كبيرة وغير مؤكدة إلى تكلفة صغيرة ومتوقعة.'}},
+   {label:{en:'No thanks',ar:'لا، شكراً'},go(){return {}}},
+  ]},
+ {id:'inflation',icon:'🛒',min:4,w:2,
+  title:{en:'Prices went up',ar:'ارتفعت الأسعار'},
+  text:{en:'Your usual groceries now cost about 6% more. Your salary didn\'t change.',ar:'أصبحت مشترياتك المعتادة أغلى بنحو 6%. لكن راتبك لم يتغير.'},
+  lesson:{en:'Inflation means the same money buys less over time. Cash that earns nothing slowly loses value; that is one reason people invest for the long term.',ar:'التضخم يعني أن المال نفسه يشتري أقل مع الوقت. النقود التي لا تكسب شيئاً تفقد قيمتها ببطء؛ وهذا أحد أسباب الاستثمار طويل الأجل.'},
+  choices:[
+   {label:{en:'Plan meals and cook more',ar:'خطط للوجبات واطبخ أكثر'},go(){S.food=Math.round(S.food*1.06*.95);S.well-=1;return {}}},
+   {label:{en:'Keep shopping as usual',ar:'تسوّق كالمعتاد'},go(){S.food=Math.round(S.food*1.06);return {}}},
+  ]},
+ {id:'bonus',icon:'🎁',min:5,w:2,once:true,
+  title:{en:'Year-end bonus!',ar:'مكافأة نهاية العام!'},
+  text:{en:'You received a {c} bonus.',ar:'حصلت على مكافأة قدرها {c}.'},
+  pre(){V({c:A(800),h:A(400)})},
+  lesson:{en:'Windfalls are a chance to jump ahead. A balanced approach: enjoy a small part and use the rest for debt or savings.',ar:'المكاسب المفاجئة فرصة للتقدم. نهج متوازن: استمتع بجزء صغير واستخدم الباقي لسداد الدين أو الادخار.'},
+  choices:[
+   {label:{en:'Weekend trip with friends',ar:'رحلة نهاية أسبوع مع الأصدقاء'},go(){S.well+=10;return {}}},
+   {label:{en:'Half for fun, half to savings or debt',ar:'نصف للترفيه، ونصف للادخار أو الدين'},go(){S.well+=5;if(S.debt>0)S.debt=Math.max(0,S.debt-A(400));else S.ef+=A(400);return {}}},
+   {label:{en:'All of it to debt and savings',ar:'كله لسداد الدين والادخار'},go(){let x=A(800);const d=Math.min(S.debt,x);S.debt-=d;x-=d;S.ef+=x;return {}}},
+  ]},
+ {id:'advance',icon:'⏩',min:2,w:3,req:()=>S.ef<A(200),
+  title:{en:'“Get paid early!”',ar:'"احصل على راتبك مبكراً!"'},
+  text:{en:'An app offers you {c} today. You repay {r} on your next payday.',ar:'تطبيق يعرض عليك {c} اليوم، وتسدد {r} في يوم راتبك القادم.'},
+  pre(){V({c:A(300),r:A(345)})},
+  lesson:{en:'Paying back {r} for {c} costs 15% in one month — that is over 180% a year. Short-term loans are among the most expensive ways to borrow.',ar:'سداد {r} مقابل {c} يكلّف 15% في شهر واحد — أي أكثر من 180% سنوياً. القروض القصيرة الأجل من أغلى طرق الاقتراض.'},
+  choices:[
+   {label:{en:'Take it — I\'m short this month',ar:'اقبل — ينقصني المال هذا الشهر'},go(){S.wallet+=A(300);S.extraCost.push({label:{en:'Pay-day app repayment',ar:'سداد تطبيق الراتب المبكر'},amt:A(345),left:1});S.well+=2;return {}}},
+   {label:{en:'No — I\'ll cut fun spending instead',ar:'لا — سأقلل الترفيه بدلاً من ذلك'},go(){S._fun=Math.round(S._fun*.6);S.well-=2;return {}}},
+  ]},
+ {id:'gifts',icon:'🌙',min:3,w:3,once:true,
+  title:{en:{toString(){return uae()?'Eid is coming':'Holiday season'}},ar:{toString(){return uae()?'العيد قادم':'موسم الأعياد'}}},
+  text:{en:{toString(){return uae()?'Family visits, new clothes and Eidiya for the children — it adds up to about {c}.':'Gifts, dinners and travel — about {c} in total.'}},ar:{toString(){return uae()?'زيارات عائلية وملابس جديدة وعيدية للأطفال — المجموع نحو {c}.':'هدايا وعشاء وسفر — نحو {c} في المجموع.'}}},
+  pre(){V({c:A(400),b:A(200)})},
+  lesson:{en:'Seasonal costs are predictable. A “sinking fund” — saving a little each month for a known future expense — turns them into no surprise at all.',ar:'التكاليف الموسمية متوقعة. "صندوق الادخار المخصص" — ادخار مبلغ صغير شهرياً لنفقة معروفة قادمة — يجعلها بلا مفاجآت.'},
+  choices:[
+   {label:{en:'Celebrate fully ({c})',ar:'احتفل بالكامل ({c})'},go(){const x=pay(A(400));S.well+=7;return {msg:cardMsg(x)}}},
+   {label:{en:'Set a budget of {b} and stick to it',ar:'حدد ميزانية {b} والتزم بها'},go(){const x=pay(A(200));S.well+=4;return {msg:cardMsg(x)}}},
+  ]},
+ {id:'remit',icon:'🏠',min:2,w:3,
+  title:{en:'Family back home',ar:'العائلة في الوطن'},
+  text:{en:'Your family asks for {c} to help with a medical bill.',ar:'تطلب عائلتك {c} للمساعدة في فاتورة علاج.'},
+  pre(){V({c:A(400),h:A(200)})},
+  lesson:{en:'Supporting family is a real priority for many people. Planning it as a regular budget line — instead of a surprise — keeps both you and them safer.',ar:'دعم العائلة أولوية حقيقية لكثير من الناس. التخطيط له كبند ثابت في الميزانية — بدلاً من مفاجأة — يحميك ويحميهم.'},
+  choices:[
+   {label:{en:'Send {c} from my emergency fund',ar:'أرسل {c} من صندوق الطوارئ'},go(){const x=pay(A(400),'ef');S.well+=4;return {msg:cardMsg(x)}}},
+   {label:{en:'Send {h} now and plan more next month',ar:'أرسل {h} الآن وخطط للمزيد الشهر القادم'},go(){const x=pay(A(200),'ef');S.well+=2;return {msg:cardMsg(x)}}},
+   {label:{en:'Explain you can\'t right now',ar:'اشرح أنك لا تستطيع الآن'},go(){S.well-=5;return {}}},
+  ]},
+ {id:'hot',icon:'🔥',min:3,w:2,once:true,
+  title:{en:{toString(){return uae()?'A colleague\'s “sure thing”':'A coworker\'s hot tip'}},ar:{toString(){return 'نصيحة زميل "مضمونة"'}}},
+  text:{en:'“This new coin will 10× by summer. Put in {c}, trust me.”',ar:'"هذه العملة الجديدة ستتضاعف 10 مرات قبل الصيف. ضع {c}، ثق بي."'},
+  pre(){V({c:A(500)})},
+  lesson:{en:'Speculation is not investing. Diversified, long-term investing spreads risk; a single hyped asset can go to zero. If it sounds guaranteed, be suspicious.',ar:'المضاربة ليست استثماراً. الاستثمار المتنوع طويل الأجل يوزع المخاطر؛ أما الأصل الواحد المروّج له فقد يفقد قيمته كلها. إن بدا مضموناً، فكن حذراً.'},
+  choices:[
+   {label:{en:'Put in {c}',ar:'ضع {c}'},go(){const x=pay(A(500),'goal');const r=rng();if(r<.15){S.wallet+=A(1500);return {msg:{en:'Lucky! It tripled and you sold. (Most people are not this lucky.)',ar:'حظ جيد! تضاعفت ثلاث مرات وبعتها. (معظم الناس ليسوا بهذا الحظ.)'}}}S.well-=4;return {msg:{en:'Two months later it is worth almost nothing.',ar:'بعد شهرين أصبحت قيمتها شبه معدومة.'}}}},
+   {label:{en:'No thanks',ar:'لا، شكراً'},go(){return {}}},
+  ]},
+ {id:'ac',icon:'❄️',min:5,w:3,req:()=>{const mo=((S.m-1)%12)+1;return mo>=5&&mo<=8},
+  title:{en:'Summer electricity bill',ar:'فاتورة كهرباء الصيف'},
+  text:{en:'The air-conditioning ran all month. The bill is {c} higher than usual.',ar:'عمل المكيف طوال الشهر. الفاتورة أعلى من المعتاد بمقدار {c}.'},
+  pre(){V({c:A(150)})},
+  lesson:{en:'Some bills change with the seasons. Look at last year\'s bills to budget for the expensive months.',ar:'بعض الفواتير تتغير مع المواسم. راجع فواتير العام الماضي لتخطط للأشهر الغالية.'},
+  choices:[{label:{en:'Pay it',ar:'ادفعها'},go(){const x=pay(A(150),'ef');return {msg:cardMsg(x)}}}]},
+ {id:'match',icon:'🏢',min:3,w:3,once:true,
+  title:{en:'Workplace savings plan',ar:'خطة الادخار في العمل'},
+  text:{en:'If you save 5% of your salary in the company plan, your employer adds another 5% for free.',ar:'إذا ادخرت 5% من راتبك في خطة الشركة، يضيف صاحب العمل 5% أخرى مجاناً.'},
+  lesson:{en:'An employer match is an instant 100% return on the money you put in. It is one of the best deals in personal finance.',ar:'مساهمة صاحب العمل المماثلة تعني عائداً فورياً بنسبة 100% على ما تدفعه. إنها من أفضل الفرص في التمويل الشخصي.'},
+  choices:[
+   {label:{en:'Join the plan',ar:'انضم إلى الخطة'},go(){S.workplan=true;return {msg:{en:'From next payday, 5% goes in — and your employer doubles it.',ar:'من الراتب القادم، تُستقطع 5% — ويضاعفها صاحب العمل.'}}}},
+   {label:{en:'I need all my salary now',ar:'أحتاج راتبي كاملاً الآن'},go(){return {}}},
+  ]},
+ {id:'rent',icon:'🔑',min:11,w:4,once:true,
+  title:{en:'Your rent is going up',ar:'الإيجار سيرتفع'},
+  text:{en:'The landlord is raising your rent by {c} a month.',ar:'سيرفع المالك إيجارك بمقدار {c} شهرياً.'},
+  pre(){V({c:A(100),r:A(300),m:A(400)})},
+  lesson:{en:'Housing is usually the biggest bill. Keeping it at roughly a third of take-home pay or less leaves room for everything else.',ar:'السكن عادة أكبر فاتورة. إبقاؤه عند نحو ثلث الدخل الصافي أو أقل يترك مجالاً لكل شيء آخر.'},
+  choices:[
+   {label:{en:'Accept the increase',ar:'اقبل الزيادة'},go(){S.rent+=A(100);return {}}},
+   {label:{en:'Find a flatmate (−{r} a month)',ar:'ابحث عن شريك سكن (−{r} شهرياً)'},go(){S.rent-=A(300);S.well-=3;return {}}},
+   {label:{en:'Move somewhere cheaper (one-off {m})',ar:'انتقل إلى مكان أرخص (تكلفة لمرة واحدة {m})'},go(){const x=pay(A(400),'ef');S.rent-=A(120);return {msg:cardMsg(x)}}},
+  ]},
+ {id:'layoff',icon:'📦',min:14,w:5,once:true,
+  title:{en:'Your company is cutting jobs',ar:'شركتك تقلّص الوظائف'},
+  text:{en:'Your role is affected. You\'ll have no salary for the next 2 months while you look for work.',ar:'وظيفتك متأثرة. لن يكون لديك راتب خلال الشهرين القادمين أثناء بحثك عن عمل.'},
+  lesson:{en:'This is the moment an emergency fund was built for. With 3 months of bills saved, a job loss is stressful — but not a crisis.',ar:'هذه هي اللحظة التي بُني من أجلها صندوق الطوارئ. مع ادخار فواتير 3 أشهر، يكون فقدان العمل مرهقاً — لكنه ليس كارثة.'},
+  choices:[
+   {label:{en:'Live on my emergency fund while I search',ar:'عِش من صندوق الطوارئ أثناء البحث'},go(){S.flags.layoff=2;return {}}},
+   {label:{en:'Take freelance gigs (half pay, more stress)',ar:'اعمل بالقطعة (نصف الأجر وتوتر أكبر)'},go(){S.flags.layoff=2;S.flags.gig=1;S.well-=5;return {}}},
+  ]},
+ {id:'splurge',icon:'🛍️',min:1,w:0,
+  title:{en:'You had a rough week',ar:'مررت بأسبوع صعب'},
+  text:{en:'Stressed and tired, you ordered takeaway every night and bought things online — about {c}.',ar:'متعباً ومتوتراً، طلبت طعاماً جاهزاً كل ليلة واشتريت أشياء عبر الإنترنت — نحو {c}.'},
+  pre(){V({c:A(250)})},
+  lesson:{en:'Cutting all fun usually backfires. A realistic budget includes some money for enjoyment, so you don\'t burn out and overspend.',ar:'إلغاء كل الترفيه يأتي غالباً بنتيجة عكسية. الميزانية الواقعية تشمل بعض المال للاستمتاع حتى لا تُنهك وتفرط في الإنفاق.'},
+  choices:[{label:{en:'Oops',ar:'أوه'},go(){const x=pay(A(250));S.well+=6;return {msg:cardMsg(x)}}}]},
+];
+function pickEvents(){
+  const out=[];
+  if(S.well<35&&rng()<.8)out.push(EVENTS.find(e=>e.id==='splurge'));
+  const elig=EVENTS.filter(e=>e.w>0&&S.m>=e.min&&!(e.once&&S.seen[e.id])&&(!e.req||e.req())&&!(S.seen[e.id]>=2)&&!out.includes(e));
+  const n=out.length?1:(rng()<.45?2:1);
+  // guaranteed teaching moments early
+  const force={1:'phish',2:'repair',3:'phone'};
+  if(force[S.m]&&!S.seen[force[S.m]]){const e=EVENTS.find(x=>x.id===force[S.m]);if(!out.includes(e))out.push(e)}
+  if(S.months===12&&S.m===9&&!S.seen.crash&&S.inv>A(300))out.push(EVENTS.find(e=>e.id==='crash'));
+  if(S.months===12&&S.m===11&&!S.seen.bonus)out.push(EVENTS.find(e=>e.id==='bonus'));
+  if(S.months===36&&S.m===20&&!S.seen.layoff)out.push(EVENTS.find(e=>e.id==='layoff'));
+  while(out.length<n&&elig.length){
+    const tot=elig.reduce((a,e)=>a+e.w,0);let r=rng()*tot,i=0;for(;i<elig.length;i++){r-=elig[i].w;if(r<=0)break}
+    const e=elig.splice(Math.min(i,elig.length-1),1)[0];if(!out.includes(e))out.push(e);
+  }
+  return out.slice(0,2);
+}
+// make sure vars are fresh when an event is shown
+const _nextEvent=nextEvent;
+nextEvent=function(){if(S.queue&&S.queue.length){const e=S.queue[0];S._vars={ef:S.ef};if(e.pre)e.pre()}return _nextEvent()};
+
+// ================= month end =================
+function monthEnd(){
+  const r={};
+  // living: food & fun
+  const foodShort=Math.max(0,S.food-S._food)/S.food;
+  if(foodShort>0.01)S.well-=Math.round(foodShort*22);else S.well+=1;
+  S.well-=2; // everyday stress
+  if(S._fun<A(60))S.well-=6;else if(S._fun<A(150))S.well+=2;else if(S._fun<A(350))S.well+=4;else S.well+=5;
+  // wallet leak: half of unassigned money disappears
+  r.leak=Math.round(S.wallet*.5);S.wallet-=r.leak;
+  // layoff
+  if(S.flags.layoff>0){S.flags._salaryCut=true}
+  // returns
+  r.ef=Math.round(S.ef*.003);S.ef+=r.ef;
+  let mu=.006,sd=.04;if(S.crash>0){mu=.03;sd=.03;S.crash--}
+  const ret=mu+sd*gauss();r.inv=Math.round(S.inv*ret);S.inv=Math.max(0,S.inv+r.inv);
+  if(S.workplan)S.inv+=Math.round(S.salary*.1);
+  r.int=Math.round(S.debt*.02);S.debt+=r.int;S.interestTotal+=r.int;
+  S.well=clamp(S.well,0,100);
+  // goal
+  if(!S.goalDone&&S.goalJar>=goalCost()){S.goalDone=S.m;r.goal=true;S.well+=10;S.well=clamp(S.well,0,100)}
+  const sc=computeScore();S.score=sc.total;
+  S.hist.push({m:S.m,nw:netWorth(),score:sc.total,debt:S.debt,ef:S.ef,well:S.well});
+  S._me=r;monthView();
+}
+function monthView(){
+  cur=monthView;const r=S._me,sc=computeScore();
+  updateHeader();
+  const rows=[[UI.walletLeak,-r.leak],[UI.efProfit,r.ef],[UI.invReturn,r.inv],[UI.interestPaid,-r.int]].filter(x=>x[1]!==0);
+  render(`<div class="card"><h2>${t(UI.monthEnd)} ${S.m}</h2>
+   ${r.goal?`<div class="lesson" style="border-color:var(--orange)">🎉 <b>${t(UI.goalReached)}</b> ${goalObj().e} ${t(goalObj().name)}</div>`:''}
+   <div class="grid g2"><div>
+    <div class="score"><div class="ring" style="--p:${sc.total}" role="img" aria-label="${t(UI.health)} ${sc.total}/100"><b>${sc.total}</b></div><div><b>${t(UI.health)}</b><div class="mute">${verdict(sc.total)}</div></div></div>
+    <h3 style="margin-top:12px">${t(UI.why)}</h3>
+    <table class="s">${sc.parts.map(p=>`<tr><td>${t(p[0])}</td><td>${p[1]} / ${p[2]}</td></tr>`).join('')}</table></div>
+   <div><table class="s">
+    <tr><td>${t(UI.netWorth)}</td><td><b>${money(netWorth())}</b></td></tr>
+    <tr><td>${t(UI.j_ef)}</td><td>${money(S.ef)}</td></tr>
+    <tr><td>${t(UI.j_goal)}</td><td>${money(S.goalJar)} / ${money(goalCost())}</td></tr>
+    <tr><td>${t(UI.j_inv)}</td><td>${money(S.inv)}</td></tr>
+    <tr><td>${t(UI.cardDebt)}</td><td class="${S.debt>0?'warn':'ok'}">${money(S.debt)}</td></tr>
+    ${rows.map(x=>`<tr><td class="mute">${t(x[0])}</td><td class="${x[1]<0?'warn':'ok'}">${x[1]>0?'+':''}${money(x[1])}</td></tr>`).join('')}
+    <tr><td>${t(UI.wellbeing)}</td><td>${S.well}/100</td></tr></table>
+    <div class="bar" style="margin-top:6px" aria-hidden="true"><i style="width:${S.well}%;background:${S.well<35?'var(--verm)':'var(--green)'}"></i></div>
+    ${S.well<35?`<p class="warn" style="font-size:.9em">${t(UI.burnout)}</p>`:''}
+    ${sparkline()}</div></div>
+   <p style="text-align:end"><button class="btn primary" id="nx">${t(UI.next)} →</button></p></div>`);
+  $('#nx').onclick=()=>{
+    if(S.m%12===0||S.m===S.months)return letter(S.m===S.months);
+    advance()};
+  $('#nx').focus();
+}
+function advance(){
+  S.m++;
+  if(S.flags.layoff>0){S._origSalary=S._origSalary||S.salary;S.salary=S.flags.gig?Math.round(S._origSalary*.5):0;S.flags.layoff--}
+  else if(S._origSalary){S.salary=S._origSalary;S._origSalary=0}
+  payday();
+}
+function computeScore(){
+  const inc=Math.max(1,S.salary||S._origSalary||1);
+  const flow=S.newDebtThisMonth<=0?20:Math.max(0,20-Math.round(S.newDebtThisMonth/inc*40));
+  const ef=Math.round(clamp(S.ef/(3*essentials()),0,1)*25);
+  const dti=S.debt/(inc*12);const debt=Math.round(clamp(1-dti/0.4,0,1)*20);
+  const saved=(S.alloc.ef+S.alloc.goal+S.alloc.inv+S.alloc.debt+(S.workplan?S.salary*.05:0))/inc;
+  const save=Math.round(clamp(saved/.2,0,1)*20);
+  const well=Math.round(S.well/100*15);
+  return {total:flow+ef+debt+save+well,parts:[[UI.sc_flow,flow,20],[UI.sc_ef,ef,25],[UI.sc_debt,debt,20],[UI.sc_save,save,20],[UI.sc_well,well,15]]};
+}
+function verdict(s){return t(s>=80?{en:'Thriving',ar:'مزدهر'}:s>=60?{en:'Healthy',ar:'صحي'}:s>=40?{en:'Coping',ar:'متماسك'}:{en:'Struggling',ar:'متعثر'})}
+function sparkline(){
+  if(S.hist.length<2)return '';
+  const w=300,h=70,xs=S.hist.map(x=>x.nw),mn=Math.min(0,...xs),mx=Math.max(1,...xs);
+  const pts=S.hist.map((x,i)=>`${(i/(S.hist.length-1)*w).toFixed(1)},${(h-(x.nw-mn)/(mx-mn)*h).toFixed(1)}`).join(' ');
+  const z=h-(0-mn)/(mx-mn)*h;
+  return `<div style="margin-top:10px"><div class="mute" style="font-size:.85em">${t(UI.netWorth)}</div><svg viewBox="0 0 ${w} ${h}" width="100%" height="70" role="img" aria-label="${t(UI.netWorth)}"><line x1="0" x2="${w}" y1="${z}" y2="${z}" stroke="var(--line)" stroke-dasharray="4 4"/><polyline points="${pts}" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linejoin="round"/></svg></div>`;
+}
+
+// ================= Future Me =================
+function face(mood,size){ // mood 0..100
+  const m=clamp(mood,0,100)/100, mouth=(m-.5)*22, brow=(m-.5)*-5;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 120 120" role="img" aria-label="Future You"><circle cx="60" cy="60" r="54" fill="#f2c9a0" stroke="#7a5230" stroke-width="3"/>
+  <path d="M18 52 Q20 10 60 12 Q100 10 102 52 Q96 30 60 30 Q26 30 18 52z" fill="#4a3426"/>
+  <path d="M28 ${94} Q60 ${112} 92 ${94}" stroke="#bcbcbc" stroke-width="0" fill="none"/>
+  <circle cx="42" cy="58" r="5" fill="#2b2b2b"/><circle cx="78" cy="58" r="5" fill="#2b2b2b"/>
+  <path d="M33 ${46+brow} L50 ${45-brow}" stroke="#4a3426" stroke-width="3" stroke-linecap="round"/><path d="M70 ${45-brow} L87 ${46+brow}" stroke="#4a3426" stroke-width="3" stroke-linecap="round"/>
+  <path d="M42 ${82-mouth*.2} Q60 ${82+mouth} 78 ${82-mouth*.2}" stroke="#7a3b2e" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M30 40 Q60 26 90 40" stroke="#d9d9d9" stroke-width="3" fill="none" opacity=".7"/></svg>`;
+}
+function projection(){
+  const monthlySave=(S.hist.slice(-12).length?(S.alloc.ef+S.alloc.goal+S.alloc.inv+S.alloc.debt):0)+(S.workplan?S.salary*.1:0);
+  const r=.07/12,n=120;
+  const fv=netWorth()*Math.pow(1+r,n)+monthlySave*((Math.pow(1+r,n)-1)/r);
+  return Math.round(fv);
+}
+function letter(final){
+  cur=()=>letter(final);
+  const p=projection(), s=S.score, yr=Math.ceil(S.m/12);
+  const debtLine=S.debt>0?{en:`I still remember that card balance. Paying only the minimum, it took me years — and the interest cost more than whatever we bought with it. You've paid ${money(S.interestTotal)} in interest so far.`,ar:`ما زلت أتذكر رصيد تلك البطاقة. بدفع الحد الأدنى فقط، استغرق الأمر سنوات — وكلفت الفائدة أكثر مما اشتريناه بها. دفعت حتى الآن ${money(S.interestTotal)} فوائد.`}:{en:'You cleared that credit card. I can\'t tell you how much lighter that felt.',ar:'سددت تلك البطاقة. لا أستطيع أن أصف لك كم شعرت بالخفة بعدها.'};
+  const efLine=S.ef>=3*essentials()?{en:'Our emergency fund saved us more than once. Thank you for building it before we needed it.',ar:'صندوق الطوارئ أنقذنا أكثر من مرة. شكراً لأنك بنيته قبل أن نحتاجه.'}:{en:'Please keep building the emergency fund. Life will test it — it always does.',ar:'أرجوك واصل بناء صندوق الطوارئ. الحياة ستختبره — كما تفعل دائماً.'};
+  const wellLine=S.well<40?{en:'And please — look after yourself too. Money is a tool for a good life, not a punishment.',ar:'وأرجوك — اعتنِ بنفسك أيضاً. المال أداة لحياة طيبة، لا عقاب.'}:{en:'I\'m glad you still had fun along the way. A budget you can live with is one you can keep.',ar:'يسعدني أنك استمتعت في الطريق. الميزانية التي تستطيع العيش بها هي التي تستطيع الاستمرار عليها.'};
+  const open=s>=70?{en:'Dear me, it\'s me — ten years from now. Things are good. Really good.',ar:'عزيزي أنا، هذا أنا — بعد عشر سنوات. الأمور جيدة. جيدة حقاً.'}:s>=45?{en:'Dear me, it\'s me — ten years from now. We\'re okay. Some months are tight, but we\'re okay.',ar:'عزيزي أنا، هذا أنا — بعد عشر سنوات. نحن بخير. بعض الأشهر صعبة، لكننا بخير.'}:{en:'Dear me, it\'s me — ten years from now. I\'m writing because I need you to change a few things.',ar:'عزيزي أنا، هذا أنا — بعد عشر سنوات. أكتب لأني أحتاجك أن تغيّر بعض الأمور.'};
+  render(`<div class="card"><h2>✉️ ${t(UI.letterFrom)} · ${LANG==='ar'?'السنة':'Year'} ${yr}</h2>
+   <div class="grid g2" style="align-items:center"><div style="text-align:center">${face(s,150)}<p class="mute">${t(UI.projection)}<br><span class="big-num" style="color:${p>=0?'var(--good)':'var(--bad)'}">${money(p)}</span></p>
+   <p class="mute" style="font-size:.8em">${LANG==='ar'?'تقدير تعليمي: صافي الثروة الحالي ومدخراتك الشهرية بعائد افتراضي 7% سنوياً. ليس توقعاً حقيقياً.':'A teaching estimate: today\'s net worth plus this month\'s saving, growing at an assumed 7% a year. Not a real forecast.'}</p></div>
+   <div class="letter"><p>${t(open)}</p><p>${t(efLine)}</p><p>${t(debtLine)}</p><p>${t(wellLine)}</p><p>— ${LANG==='ar'?'أنت':'You'}</p></div></div>
+   <p style="text-align:end"><button class="btn primary" id="nx">${final?t(UI.final):t(UI.next)} →</button></p></div>`);
+  $('#nx').onclick=()=>final?ending():advance();
+}
+// ================= ending, notebook, quiz =================
+const QUIZ=[
+ {q:{en:'You owe 3,000 on a card at 24% a year. Which costs the least overall?',ar:'عليك 3,000 على بطاقة بفائدة 24% سنوياً. أيّ خيار يكلّف أقل في المجمل؟'},a:[{en:'Paying only the minimum',ar:'دفع الحد الأدنى فقط'},{en:'Paying a fixed amount above the minimum every month',ar:'دفع مبلغ ثابت أعلى من الحد الأدنى كل شهر'},{en:'Moving it to a “pay later” app',ar:'نقله إلى تطبيق "ادفع لاحقاً"'}],c:1},
+ {q:{en:'What is an emergency fund for?',ar:'ما الغرض من صندوق الطوارئ؟'},a:[{en:'Unexpected, necessary costs like repairs or job loss',ar:'تكاليف ضرورية غير متوقعة مثل الإصلاحات أو فقدان العمل'},{en:'Sales and special offers',ar:'التخفيضات والعروض الخاصة'},{en:'Investing in new coins',ar:'الاستثمار في العملات الجديدة'}],c:0},
+ {q:{en:'A text from your bank asks for your card code. You should…',ar:'رسالة من مصرفك تطلب رمز بطاقتك. يجب أن…'},a:[{en:'Reply quickly so the account is not blocked',ar:'ترد بسرعة حتى لا يُوقف الحساب'},{en:'Ignore it and call the number on your card',ar:'تتجاهلها وتتصل بالرقم المكتوب على بطاقتك'},{en:'Forward it to friends',ar:'تعيد إرسالها للأصدقاء'}],c:1},
+];
+function ending(){
+  cur=ending;S.over=true;updateHeader();
+  const best=load('futureme_best')||0;if(S.score>best)store('futureme_best',S.score);
+  const notes=S.notes.map(n=>{S._vars=n.vars;return `<li>${fill(t(n.txt))}</li>`}).join('');
+  render(`<div class="card"><h2>${t(UI.final)}</h2><div class="grid g2"><div style="text-align:center">${face(S.score,140)}<div class="big-num">${S.score}/100</div><div class="mute">${verdict(S.score)}</div></div>
+   <div><table class="s"><tr><td>${t(UI.netWorth)}</td><td><b>${money(netWorth())}</b></td></tr><tr><td>${t(UI.j_ef)}</td><td>${money(S.ef)}</td></tr><tr><td>${t(UI.j_inv)}</td><td>${money(S.inv)}</td></tr><tr><td>${t(UI.cardDebt)}</td><td>${money(S.debt)}</td></tr>
+   <tr><td>${t(UI.interestPaid)}</td><td>${money(S.interestTotal)}</td></tr><tr><td>${t(UI.j_goal)}</td><td>${S.goalDone?'✅ '+(LANG==='ar'?'الشهر ':'month ')+S.goalDone:money(S.goalJar)+' / '+money(goalCost())}</td></tr></table>${sparkline()}</div></div></div>
+   <div class="card"><h2>📒 ${t(UI.notebook)}</h2><p class="mute">${t(UI.notebookHint)}</p><ul class="notebook">${notes}</ul></div>
+   <div class="card" id="quiz"><h2>✅ ${t(UI.quiz)}</h2>${QUIZ.map((q,i)=>`<fieldset style="border:none;padding:0;margin:10px 0"><legend><b>${i+1}. ${t(q.q)}</b></legend>${q.a.map((a,j)=>`<button class="choice" data-q="${i}" data-a="${j}">${t(a)}</button>`).join('')}<div id="qr${i}" aria-live="polite"></div></fieldset>`).join('')}</div>
+   <p style="text-align:center"><button class="btn primary" id="again">${t(UI.again)}</button></p>`);
+  main.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const q=QUIZ[+b.dataset.q],ok=+b.dataset.a===q.c;$('#qr'+b.dataset.q).innerHTML=ok?`<span class="ok">✔ ${LANG==='ar'?'صحيح':'Correct'}</span>`:`<span class="warn">✘ ${LANG==='ar'?'الإجابة الصحيحة: ':'Answer: '}${t(q.a[q.c])}</span>`;clink(ok?1200:300)});
+  $('#again').onclick=intro;
+}
+// ================= accessibility & language =================
+function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==='ar'?'rtl':'ltr';$('#langSel').value=LANG}
+$('#langSel').onchange=e=>{LANG=e.target.value;store('futureme_lang',LANG);applyLang();rerender()};
+let cur=null;
+function rerender(){ if(!S||!cur)return intro(); cur(); }
+const prefs=Object.assign({big:false,hc:false,dark:false,rm:false,snd:true},load('futureme_prefs')||{});
+function applyPrefs(){document.body.classList.toggle('big',prefs.big);document.body.classList.toggle('hc',prefs.hc);document.body.classList.toggle('dark',prefs.dark);document.body.classList.toggle('rm',prefs.rm);sound=prefs.snd;store('futureme_prefs',prefs)}
+$('#aBtn').onclick=()=>{const a=$('#access');a.hidden=!a.hidden;if(a.hidden)return;
+  const row=(k,lab)=>`<label style="display:inline-flex;gap:6px;align-items:center;margin-inline-end:16px"><input type="checkbox" data-p="${k}" ${prefs[k]?'checked':''}> ${t(lab)}</label>`;
+  a.innerHTML=row('big',UI.a_text)+row('hc',UI.a_hc)+row('dark',UI.a_dark)+row('rm',UI.a_rm)+row('snd',UI.a_snd)+`<p class="mute" style="font-size:.85em;margin:.5em 0 0">${t(UI.a_note)}</p>`;
+  a.querySelectorAll('[data-p]').forEach(c=>c.onchange=()=>{prefs[c.dataset.p]=c.checked;applyPrefs()})};
+if(matchMedia('(prefers-reduced-motion: reduce)').matches&&load('futureme_prefs')===null)prefs.rm=true;
+if(matchMedia('(prefers-color-scheme: dark)').matches&&load('futureme_prefs')===null)prefs.dark=true;
+LANG=load('futureme_lang')||((navigator.language||'').startsWith('ar')?'ar':'en');
+applyLang();applyPrefs();intro();
+window.__fm={get S(){return S},EVENTS,computeScore,projection};
+</script>
+</body>
+</html>
