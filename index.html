@@ -75,6 +75,14 @@ select{font:inherit;padding:6px 8px;border-radius:9px;border:2px solid var(--lin
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .notebook li{margin:6px 0}
+.evt-icon{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-size:2.1em;flex:none;background:color-mix(in srgb,var(--evc,var(--sky)) 22%,var(--card));border:3px solid color-mix(in srgb,var(--evc,var(--sky)) 55%,transparent)}
+.card.event{border-top:6px solid var(--evc,var(--sky))}
+.coin{position:fixed;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe58a,#E69F00 70%);border:1px solid #b97f00;z-index:20;pointer-events:none;transition:transform .45s cubic-bezier(.3,.7,.4,1),opacity .45s}
+#timeline{display:flex;gap:3px;flex-wrap:wrap;margin:-4px 0 8px}
+#timeline i{width:10px;height:10px;border-radius:3px;background:var(--line)}
+#timeline i.done{background:var(--green)}#timeline i.now{background:var(--orange)}#timeline i.year{margin-inline-end:6px}
+.confetti{position:fixed;top:-12px;width:9px;height:14px;z-index:30;pointer-events:none;animation:fall 1.8s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
 </style>
 </head>
 <body>
@@ -91,6 +99,7 @@ select{font:inherit;padding:6px 8px;border-radius:9px;border:2px solid var(--lin
       <button class="btn small" id="aBtn" aria-haspopup="true">Aa</button>
     </div>
   </header>
+  <div id="timeline" aria-hidden="true"></div>
   <div id="access" class="card" hidden></div>
   <main id="main" aria-live="polite"></main>
 </div>
@@ -226,6 +235,7 @@ function render(h){main.innerHTML='<div class="fade">'+h+'</div>';window.scrollT
 function updateHeader(){
   const on=!!S&&S.m<=S.months&&!S.over;
   ['#pMonth','#pWallet','#pScore'].forEach(s=>$(s).hidden=!on);
+  const tl=$('#timeline');tl.innerHTML=on?Array.from({length:S.months},(_,i)=>`<i class="${i+1<S.m?'done':i+1===S.m?'now':''}${(i+1)%12===0?' year':''}"></i>`).join(''):'';
   if(!on)return;
   $('#pMonth').innerHTML=t(UI.month)+' <b>'+S.m+'</b> / '+S.months;
   $('#pWallet').innerHTML=t(UI.netWorth)+' <b>'+money(netWorth())+'</b>';
@@ -303,7 +313,7 @@ function allocScreen(){
     <div class="grid g2">${jars}</div>
     <p style="text-align:end"><button class="btn primary" id="done">${t(UI.done)} →</button></p>`);
   main.querySelectorAll('.step').forEach(b=>b.onclick=()=>{const k=b.dataset.k,d=+b.dataset.d;let s=STEP();
-    if(d>0){s=Math.min(s,remaining());if(k==='debt')s=Math.min(s,S.debt-minPay()-S.alloc.debt);if(s<=0)return;S.alloc[k]+=s;clink(700+Math.random()*300)}
+    if(d>0){s=Math.min(s,remaining());if(k==='debt')s=Math.min(s,S.debt-minPay()-S.alloc.debt);if(s<=0)return;S.alloc[k]+=s;clink(700+Math.random()*300);flyCoin(k)}
     else{S.alloc[k]=Math.max(0,S.alloc[k]-s)}
     refreshAlloc()});
   $('#split').onclick=()=>{const w=S.wallet,st=STEP(),rd=x=>Math.max(0,Math.floor(x/st)*st);S.alloc={food:0,fun:0,ef:0,goal:0,inv:0,debt:0};
@@ -317,6 +327,11 @@ function allocScreen(){
   $('#clr').onclick=()=>{S.alloc={food:0,fun:0,ef:0,goal:0,inv:0,debt:0};refreshAlloc()};
   $('#done').onclick=()=>{if(remaining()>0&&!S._warned){S._warned=1;toast(t(UI.assignHint));return}liveMonth()};
 }
+function flyCoin(k){if(document.body.classList.contains('rm'))return;const from=$('#rem'),to=main.querySelector(`[data-svg="${k}"]`);if(!from||!to)return;
+  const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();const c=document.createElement('div');c.className='coin';c.style.left=(a.left+20)+'px';c.style.top=(a.top+10)+'px';document.body.appendChild(c);
+  requestAnimationFrame(()=>{c.style.transform=`translate(${b.left+12-a.left-20}px,${b.top+20-a.top-10}px) scale(.7)`;c.style.opacity='.4'});setTimeout(()=>c.remove(),500)}
+function confetti(){if(document.body.classList.contains('rm'))return;const cols=['#E69F00','#56B4E9','#009E73','#F0E442','#CC79A7','#0072B2'];for(let i=0;i<60;i++){const d=document.createElement('div');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=cols[i%cols.length];d.style.animationDelay=(Math.random()*.6)+'s';d.style.animationDuration=(1.4+Math.random())+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}}
+const EVC={repair:'var(--verm)',phone:'var(--purple)',phish:'var(--verm)',lend:'var(--sky)',repay:'var(--sky)',course:'var(--blue)',promo:'var(--green)',crash:'var(--verm)',sale:'var(--purple)',wish:'var(--purple)',subs:'var(--orange)',dental:'var(--sky)',insure:'var(--blue)',inflation:'var(--orange)',bonus:'var(--green)',advance:'var(--verm)',gifts:'var(--orange)',remit:'var(--green)',hot:'var(--verm)',ac:'var(--orange)',match:'var(--green)',rent:'var(--orange)',layoff:'var(--verm)',splurge:'var(--purple)'};
 function refreshAlloc(){
   for(const k in S.alloc){const e=$('#a_'+k);if(e)e.innerHTML=money(S.alloc[k])}
   $('#rem').innerHTML=money(remaining());
@@ -344,7 +359,7 @@ function nextEvent(){
 }
 function showEvent(ev,ch){
   cur=()=>showEvent(ev,ch);
-  render(`<div class="card"><div class="mute">${t(UI.meanwhile)}</div><div style="display:flex;gap:14px;align-items:flex-start;margin-top:6px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div>
+  render(`<div class="card event" style="--evc:${EVC[ev.id]||'var(--sky)'}"><div class="mute">${t(UI.meanwhile)}</div><div style="display:flex;gap:14px;align-items:flex-start;margin-top:6px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div>
    <div style="flex:1"><h2>${t(ev.title)}</h2><p>${fill(t(ev.text))}</p>
    ${ch.map((c,i)=>`<button class="choice" data-i="${i}"><b>${fill(t(c.label))}</b>${c.sub?`<small>${fill(t(c.sub))}</small>`:''}</button>`).join('')}</div></div></div>`);
   main.querySelectorAll('.choice').forEach(b=>b.onclick=()=>{
@@ -356,7 +371,7 @@ function showEvent(ev,ch){
 }
 function showResult(ev,c,res,lesson){
     cur=()=>showResult(ev,c,res,lesson);
-    render(`<div class="card"><div style="display:flex;gap:14px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div><div style="flex:1"><h2>${t(ev.title)}</h2>
+    render(`<div class="card event" style="--evc:${EVC[ev.id]||'var(--sky)'}"><div style="display:flex;gap:14px"><div class="evt-icon" aria-hidden="true">${ev.icon}</div><div style="flex:1"><h2>${t(ev.title)}</h2>
       <p><b>${fill(t(c.label))}</b></p>${res.msg?`<p>${fill(t(res.msg))}</p>`:''}
       ${lesson?`<div class="lesson">📒 ${fill(t(lesson))}</div>`:''}
       <p style="text-align:end;margin-top:14px"><button class="btn primary" id="cont">${t(UI.continue)} →</button></p></div></div></div>`);
@@ -629,7 +644,7 @@ function monthEnd(){
   if(!S.goalDone&&S.goalJar>=goalCost()){S.goalDone=S.m;r.goal=true;S.well+=10;S.well=clamp(S.well,0,100)}
   const sc=computeScore();S.score=sc.total;
   S.hist.push({m:S.m,nw:netWorth(),score:sc.total,debt:S.debt,ef:S.ef,well:S.well});
-  S._me=r;monthView();
+  S._me=r;monthView();if(r.goal)confetti();
 }
 function monthView(){
   cur=monthView;const r=S._me,sc=computeScore();
